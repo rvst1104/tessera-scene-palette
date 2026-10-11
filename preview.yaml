@@ -1,6 +1,20 @@
-# Production defaults stay empty. These previews deliberately contain no real scenes.
+# Synthetic preview data only. Production options default to empty.
 tiles:
-  - { tile: palette, name: Scenes, sizes: [1x1, 2x1, 2x2] }
-cards:
-  - { card: scenes }
+  - { tile: palette, name: Empty, sizes: [2x2] }
+  - tile: palette
+    name: Scenes
+    sizes: [2x2, 3x2, 3x3]
+    options:
+      scene_1: scene.read
+      scene_2: scene.film
+      scene_3: scene.night
+      scene_4: scene.bright
+      scene_5: scene.relax
+      scene_6: scene.away
+      label_1: Read
+      label_2: Film
+      label_3: Night
+      label_4: Bright
+      label_5: Relax
+      label_6: Away
 

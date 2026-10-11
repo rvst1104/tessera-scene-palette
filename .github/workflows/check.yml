@@ -38,18 +38,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Apply local Tessera extension
-        working-directory: tessera-core-upstream
-        run: |
-          git apply --check ../tessera-scene-palette/compat/card-controls.patch
-          git apply ../tessera-scene-palette/compat/card-controls.patch
       - name: Install check dependencies
         run: python -m pip install 'esphome==2026.9.1' PyYAML 'aiohttp>=3.12,<4'
       - name: Check plugin
         run: python tessera-plugins-upstream/tools/check.py tessera-scene-palette
-      - name: Test real ESPHome configuration
+      - name: Regression against stock Tessera manifest
         run: python tessera-scene-palette/checks/test_config.py
-      - name: Test Tessera compatibility and optional inputs
+      - name: Test Tessera compatibility
         working-directory: tessera-core-upstream
         run: >-
           python -m unittest tests.test_plugins.Manifest tests.test_plugins.Everywhere
@@ -62,13 +57,11 @@ jobs:
           g++ -std=c++20 -I tessera-core-upstream -I tessera-core-upstream/tests tessera-core-upstream/tests/test_screen_input.cpp -o /tmp/test_screen_input
           /tmp/test_screen_input
       - name: Install preview system dependencies
-        if: github.event_name == 'workflow_dispatch' && inputs.preview
         run: sudo apt-get update && sudo apt-get install -y libsdl2-dev build-essential pkg-config
       - name: Official preview
-        if: github.event_name == 'workflow_dispatch' && inputs.preview
-        run: python tessera-plugins-upstream/tools/preview.py tessera-scene-palette --strict
+        run: python tessera-plugins-upstream/tools/preview.py tessera-scene-palette --strict --board cyd --board guition
       - name: Save preview results
-        if: always() && github.event_name == 'workflow_dispatch' && inputs.preview
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: screen-preview

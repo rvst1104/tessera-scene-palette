@@ -1,15 +1,1 @@
-defaults:
-  SCENE_1: ""
-  SCENE_2: ""
-  SCENE_3: ""
-  SCENE_4: ""
-  SCENE_5: ""
-  SCENE_6: ""
 scene_palette:
-  scene_1: "${SCENE_1}"
-  scene_2: "${SCENE_2}"
-  scene_3: "${SCENE_3}"
-  scene_4: "${SCENE_4}"
-  scene_5: "${SCENE_5}"
-  scene_6: "${SCENE_6}"
-

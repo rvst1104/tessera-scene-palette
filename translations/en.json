@@ -6,21 +6,23 @@
     "tile_empty": "No scenes",
     "title": "Scenes",
     "empty": "No scenes chosen",
-    "empty_hint": "Choose scenes in Plugins",
+    "empty_hint": "Choose scenes in tile options",
     "count": "1 scene | {n} scenes",
     "choose": "Tap a scene to start",
     "sent": "Sent:",
     "failed": "Not sent:",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "configure": "Edit tile options",
+    "invalid": "Check scene IDs"
   },
   "app": {
     "name": "Scene Palette",
-    "summary": "Your chosen scenes together in one tile. Requires the bundled local core extension.",
+    "summary": "Six chosen scenes in one tile. Works with standard Tessera.",
     "tile_name": "Scene Palette",
     "tile_example": "Choose your scenes",
     "card_name": "Scenes",
-    "scene_hint": "Optional. Leave empty to hide this slot. Changing scenes requires rebuilding the screen.",
+    "scene_hint": "Scene entity ID, for example scene.reading. Leave empty to hide. Changes apply without rebuilding firmware.",
     "label_hint": "Optional short name. Empty uses the scene entity ID as readable text.",
     "icon_palette": "Palette",
     "icon_bulb": "Light",
@@ -47,4 +49,3 @@
     "icon_6": "Icon 6"
   }
 }
-

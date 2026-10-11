@@ -7,11 +7,6 @@ namespace esphome::scene_palette {
 using tessera::Font;
 namespace ui = tessera::ui;
 
-static std::vector<Scene> selected(const ScenePalette *plugin,
-                                  const std::array<std::string, 6> &labels,
-                                  const std::array<std::string, 6> &icons) {
-  return make_selection(plugin->scenes(), labels, icons);
-}
 static uint32_t glyph(const std::string &name) {
   if (name == "bulb") return 0xF0335;
   if (name == "book") return 0xF095F;  // native desk-lamp glyph for reading
@@ -28,10 +23,18 @@ static lv_obj_t *line(lv_obj_t *parent, Font font, theme::Role role, int x, int 
   return label;
 }
 
-class PaletteCard : public tessera::Card {
+class PaletteTile : public tessera::Tile {
  public:
-  PaletteCard(ScenePalette *plugin, std::vector<Scene> scenes) : plugin_(plugin), scenes_(std::move(scenes)) {}
-  void open(const tessera::CardContext &c) override {
+  explicit PaletteTile(ScenePalette *plugin) : plugin_(plugin) {}
+  void create(const tessera::TileContext &c) override {
+    std::array<std::string, 6> entities{}, labels{}, icons{};
+    for (size_t i = 0; i < entities.size(); ++i) {
+      const auto suffix = std::to_string(i + 1);
+      entities[i] = c.options[std::string("scene_") + suffix] | "";
+      labels[i] = c.options[std::string("label_") + suffix] | "";
+      if (!entities[i].empty() && !valid_scene(entities[i])) invalid_ = true;
+    }
+    scenes_ = make_selection(entities, labels, icons);
     parent_ = c.parent; width_ = c.width; height_ = c.height;
     const int gap = ui::px(8), foot = ui::line_height(Font::BODY) + gap;
     const int key = std::max(ui::mm(9), ui::line_height(Font::BODY) + 2 * gap);
@@ -47,7 +50,6 @@ class PaletteCard : public tessera::Card {
       auto *block = ui::block(parent_, theme::CARD);
       lv_obj_set_pos(block, (i % columns_) * (cell + gap), (i / columns_) * (key_height_ + gap));
       lv_obj_set_size(block, cell, key_height_);
-      ui::control(block, static_cast<uint16_t>(i));
       blocks_.push_back(block);
       const Font face = ui::large() ? Font::ICON : Font::ICON_SMALL;
       const int iw = ui::line_height(face), pad = ui::px(8);
@@ -62,7 +64,6 @@ class PaletteCard : public tessera::Card {
     lv_obj_set_pos(next_, width_ / 2 + gap / 2, nav_y);
     lv_obj_set_size(previous_, width_ / 2 - gap / 2, key);
     lv_obj_set_size(next_, width_ / 2 - gap / 2, key);
-    ui::control(previous_, 100); ui::control(next_, 101);
     previous_text_ = line(previous_, Font::BODY, theme::INK, gap, (key - ui::line_height(Font::BODY)) / 2,
                            width_ / 2 - 3 * gap, plugin_->text("previous"));
     next_text_ = line(next_, Font::BODY, theme::INK, gap, (key - ui::line_height(Font::BODY)) / 2,
@@ -73,7 +74,19 @@ class PaletteCard : public tessera::Card {
                  width_, plugin_->text("empty_hint"));
     paint();
   }
-  void on_control(uint16_t id) override {
+  // All child blocks stay non-clickable. The native tile receives the filtered
+  // tap; no LVGL touch callbacks or raw-touch subscriptions belong to this plugin.
+  void on_tap() override {
+    auto *input = lv_indev_active();
+    if (!input || lv_indev_get_type(input) != LV_INDEV_TYPE_POINTER) return;
+    lv_point_t point;
+    lv_indev_get_point(input, &point);
+    if (contains(previous_, point)) { dispatch(100); return; }
+    if (contains(next_, point)) { dispatch(101); return; }
+    for (int i = 0; i < page_size_; ++i)
+      if (contains(blocks_[i], point)) { dispatch(static_cast<uint16_t>(i)); return; }
+  }
+  void dispatch(uint16_t id) {
     if (id == 100 && page_ > 0) { --page_; message_.clear(); paint(); return; }
     if (id == 101 && (page_ + 1) * page_size_ < static_cast<int>(scenes_.size())) {
       ++page_; message_.clear(); paint(); return;
@@ -88,6 +101,12 @@ class PaletteCard : public tessera::Card {
   }
   void on_theme() override { paint(); }
  private:
+  static bool contains(lv_obj_t *object, const lv_point_t &point) {
+    if (!object || lv_obj_has_flag(object, LV_OBJ_FLAG_HIDDEN)) return false;
+    lv_area_t area;
+    lv_obj_get_coords(object, &area);
+    return point.x >= area.x1 && point.x <= area.x2 && point.y >= area.y1 && point.y <= area.y2;
+  }
   void paint() {
     for (int i = 0; i < page_size_; ++i) {
       const size_t index = static_cast<size_t>(page_ * page_size_ + i);
@@ -117,7 +136,7 @@ class PaletteCard : public tessera::Card {
     else lv_obj_remove_state(next_, LV_STATE_DISABLED);
     ui::set_color(previous_text_, theme::INK); ui::set_color(next_text_, theme::INK);
     ui::set_color(status_, theme::MUTED);
-    ui::set_text(status_, message_.empty() && !empty ? plugin_->text("choose") : message_);
+    ui::set_text(status_, message_.empty() ? plugin_->text(invalid_ ? "invalid" : empty ? "configure" : "choose") : message_);
   }
   ScenePalette *plugin_;
   std::vector<Scene> scenes_;
@@ -125,44 +144,10 @@ class PaletteCard : public tessera::Card {
   std::vector<lv_obj_t *> blocks_, names_, icons_;
   int width_{}, height_{}, page_{}, page_size_{1}, columns_{1}, rows_{1}, key_height_{};
   std::string message_;
-};
-
-class PaletteTile : public tessera::Tile {
- public:
-  explicit PaletteTile(ScenePalette *plugin) : plugin_(plugin) {}
-  void create(const tessera::TileContext &c) override {
-    tile_ = c.tile;
-    for (size_t i = 0; i < 6; ++i) {
-      const auto suffix = std::to_string(i + 1);
-      labels_[i] = c.options[std::string("label_") + suffix] | "";
-      icons_[i] = c.options[std::string("icon_") + suffix] | "palette";
-    }
-    const auto scenes = selected(plugin_, labels_, icons_);
-    const Font face = ui::large() ? Font::ICON : Font::ICON_SMALL;
-    const int ih = ui::line_height(face), bh = ui::line_height(Font::BODY), gap = ui::px(4);
-    const int top = std::max(0, (c.height - ih - bh - gap) / 2);
-    icon_ = line(c.parent, face, theme::ACCENT, 0, top, c.width, ui::icon(glyph("palette")));
-    count_ = line(c.parent, Font::BODY, theme::MUTED, 0, top + ih + gap, c.width,
-                   scenes.empty() ? plugin_->text("tile_empty") : tessera::format(plugin_->text("count"), scenes.size()));
-    for (auto *label : {icon_, count_}) lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
-  }
-  void on_tap() override { plugin_->open_palette(labels_, icons_, tile_); }
-  void on_theme() override { ui::set_color(icon_, theme::ACCENT); ui::set_color(count_, theme::MUTED); }
- private:
-  ScenePalette *plugin_;
-  int tile_{-1};
-  std::array<std::string, 6> labels_{}, icons_{};
-  lv_obj_t *icon_{}, *count_{};
+  bool invalid_{false};
 };
 
 void ScenePalette::setup() {
   add_tile("palette", [this] { return new PaletteTile(this); });
-  add_card("scenes", [this] { return new PaletteCard(this, selected(this, labels_, icons_)); });
-}
-void ScenePalette::open_palette(const std::array<std::string, 6> &labels,
-                               const std::array<std::string, 6> &icons, int tile) {
-  labels_ = labels; icons_ = icons;
-  tessera::open_card(plugin_id(), "scenes", "", tile, text("title"));
 }
 }  // namespace esphome::scene_palette
-

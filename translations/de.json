@@ -6,21 +6,23 @@
     "tile_empty": "Keine Szenen",
     "title": "Szenen",
     "empty": "Keine Szenen gewählt",
-    "empty_hint": "Szenen unter Plugins wählen",
+    "empty_hint": "Szenen in Kacheloptionen wählen",
     "count": "1 Szene | {n} Szenen",
     "choose": "Szene antippen zum Starten",
     "sent": "Gesendet:",
     "failed": "Nicht gesendet:",
     "previous": "Zurück",
-    "next": "Weiter"
+    "next": "Weiter",
+    "configure": "Kacheloptionen bearbeiten",
+    "invalid": "Szenen-IDs prüfen"
   },
   "app": {
     "name": "Szenenpalette",
-    "summary": "Deine ausgewählten Szenen in einer Kachel. Benötigt die beiliegende lokale Tessera-Erweiterung.",
+    "summary": "Sechs selbst gewählte Szenen in einer Kachel. Für unverändertes Tessera.",
     "tile_name": "Szenenpalette",
     "tile_example": "Wähle deine Szenen",
     "card_name": "Szenen",
-    "scene_hint": "Optional. Leer lassen blendet diesen Platz aus. Szenen ändern erfordert ein erneutes Erstellen der Bildschirm-Firmware.",
+    "scene_hint": "Szenen-ID, z. B. scene.lesen. Leer blendet den Platz aus. Änderungen gelten ohne Firmware-Neubau.",
     "label_hint": "Optionaler Kurzname. Leer verwendet die Szenen-ID als lesbaren Text.",
     "icon_palette": "Palette",
     "icon_bulb": "Licht",
@@ -47,4 +49,3 @@
     "icon_6": "Symbol 6"
   }
 }
-

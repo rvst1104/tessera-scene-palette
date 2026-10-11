@@ -1,5 +1,0 @@
-packages:
-  palette: !include
-    file: ../plugin.yaml
-    vars:
-      SCENE_2: scene.example

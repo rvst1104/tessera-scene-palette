@@ -1,6 +1,6 @@
 # scene_palette
 
-Read ../tessera-plugins-upstream/AGENTS.md and its docs before changing this plugin.
-Run python ../tessera-plugins-upstream/tools/check.py . and preview.py . --strict with TESSERA_TREE pointing to the patched core.
-This plugin requires the bundled local card-control extension. Do not replace it with LVGL callbacks in the plugin.
-
+Read ../tessera-plugins-upstream/AGENTS.md and its docs before changes.
+This plugin must install on unmodified Tessera API 0.8. No custom manifest fields or core extensions.
+Use Tile::on_tap after the core touch filter. No LVGL event handlers.
+Run the official checker against unmodified core and preview.py --strict.

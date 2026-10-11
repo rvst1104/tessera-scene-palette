@@ -1,28 +1,12 @@
-# Testversion von GitHub
+# Testing version 0.2.0
 
-Dieses Repository enthält den Plugin-Prototyp und die dafür notwendige Tessera-Erweiterung. Es ist noch kein direkt installierbares Plugin für unverändertes Tessera. Alle sechs Szenenplätze starten leer.
+Use unmodified Tessera with plugin API 0.8. No compatibility patch is required.
 
-## Voraussetzungen
+Add `https://github.com/rvst1104/tessera-scene-palette` through the normal Screen Manager plugin flow. If it cached 0.1.0, remove the failed entry and read the link again; verify that the description says 0.2.0.
 
-- Tessera-Basis: `MaxGramser/homeassistant_espscreen` am Commit `8fee7045b048fd4202579e207000e970e88fa57e`.
-- Den Patch `compat/card-controls.patch` auf diesen Stand anwenden. Er ergänzt die gefilterten Schaltflächen und optionale Szenenfelder im Editor.
-- Sowohl die Tessera-App als auch die Panel-Firmware müssen diesen angepassten Stand verwenden. Nur die Plugin-URL einzutragen reicht nicht.
+After the normal plugin firmware build, add a 2×2 or larger Scene Palette tile. Leave all scene fields empty to test the initial view. Then enter scene entity IDs and optional short names in the tile options and save the layout. This step does not rebuild firmware.
 
-Die Patch-Anleitung steht in [compat/README.md](compat/README.md). Der Patch enthält den neu gebauten Editor. Er richtet selbst keine Szenen ein, überschreibt kein Layout und startet keine Home-Assistant-Aktionen.
+Check scene taps, pagination, unused slots, duplicate slots, invalid IDs, light/dark theme, swipes and standby on the real panel. Scene buttons are inside the tile; there is no popup card. Only the core-filtered tile tap dispatches actions. No scene is executed by the automated preview.
 
-## Plugin hinzufügen
+GitHub Actions uses the stock manifest validator, tests empty options and selection logic, and runs the official strict preview on CYD and Guition. Its images and findings are uploaded as `screen-preview`. Physical panel validation and measured memory usage remain pending.
 
-1. In der angepassten Tessera-App „Plugins → Mit einem Link hinzufügen“ öffnen.
-2. `https://github.com/rvst1104/tessera-scene-palette` eintragen.
-3. Dein Panel auswählen. Alle sechs Szenenfelder können leer bleiben; später lassen sie sich wieder leeren.
-4. Die Firmware mit dem angepassten Tessera-Code bauen. Eine geänderte Szenenauswahl benötigt einen erneuten Firmware-Build.
-5. Eine Szenenpalette-Kachel hinzufügen. Namen und Symbole in ihren Kacheloptionen ändern.
-6. Auf dem Panel zuerst die leere Ansicht, Zurück, Standby und Wischgesten prüfen. Anschließend gewünschte Szenen auswählen und deren Aufruf testen.
-
-Es gibt absichtlich keinen stabilen Release. Tessera kennzeichnet den Hauptzweig als Testversion. Neue Commits können als Updates angeboten werden. „Gesendet“ bedeutet nur, dass der Szenenbefehl verschickt wurde.
-
-## Automatische Prüfungen
-
-Unter GitHub Actions läuft die Prüfung von Plugin, Konfiguration und optionalen Eingaben. Die offizielle Linux-Bildschirmvorschau lässt sich über „Run workflow“ zusätzlich starten; ihre Ergebnisse werden als Artefakt gespeichert. Ein grüner Code-Check ersetzt keinen Test auf dem echten Panel.
-
-Die bisherigen lokalen Prüfergebnisse und offenen Prüfungen stehen in [VALIDATION.md](VALIDATION.md).
