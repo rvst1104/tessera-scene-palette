@@ -1,0 +1,50 @@
+{
+  "_meta": {
+    "name": "English"
+  },
+  "screen": {
+    "tile_empty": "No scenes",
+    "title": "Scenes",
+    "empty": "No scenes chosen",
+    "empty_hint": "Choose scenes in Plugins",
+    "count": "1 scene | {n} scenes",
+    "choose": "Tap a scene to start",
+    "sent": "Sent:",
+    "failed": "Not sent:",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "app": {
+    "name": "Scene Palette",
+    "summary": "Your chosen scenes together in one tile. Requires the bundled local core extension.",
+    "tile_name": "Scene Palette",
+    "tile_example": "Choose your scenes",
+    "card_name": "Scenes",
+    "scene_hint": "Optional. Leave empty to hide this slot. Changing scenes requires rebuilding the screen.",
+    "label_hint": "Optional short name. Empty uses the scene entity ID as readable text.",
+    "icon_palette": "Palette",
+    "icon_bulb": "Light",
+    "icon_book": "Reading",
+    "icon_movie": "Movie",
+    "icon_moon": "Night",
+    "scene_1": "Scene 1",
+    "label_1": "Name 1",
+    "icon_1": "Icon 1",
+    "scene_2": "Scene 2",
+    "label_2": "Name 2",
+    "icon_2": "Icon 2",
+    "scene_3": "Scene 3",
+    "label_3": "Name 3",
+    "icon_3": "Icon 3",
+    "scene_4": "Scene 4",
+    "label_4": "Name 4",
+    "icon_4": "Icon 4",
+    "scene_5": "Scene 5",
+    "label_5": "Name 5",
+    "icon_5": "Icon 5",
+    "scene_6": "Scene 6",
+    "label_6": "Name 6",
+    "icon_6": "Icon 6"
+  }
+}
+

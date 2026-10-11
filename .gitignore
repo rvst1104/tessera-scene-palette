@@ -1,0 +1,7 @@
+.preview/
+__pycache__/
+*.pyc
+checks/*.o
+checks/*.exe
+checks/*.pdb
+

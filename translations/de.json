@@ -1,0 +1,50 @@
+{
+  "_meta": {
+    "name": "Deutsch"
+  },
+  "screen": {
+    "tile_empty": "Keine Szenen",
+    "title": "Szenen",
+    "empty": "Keine Szenen gewählt",
+    "empty_hint": "Szenen unter Plugins wählen",
+    "count": "1 Szene | {n} Szenen",
+    "choose": "Szene antippen zum Starten",
+    "sent": "Gesendet:",
+    "failed": "Nicht gesendet:",
+    "previous": "Zurück",
+    "next": "Weiter"
+  },
+  "app": {
+    "name": "Szenenpalette",
+    "summary": "Deine ausgewählten Szenen in einer Kachel. Benötigt die beiliegende lokale Tessera-Erweiterung.",
+    "tile_name": "Szenenpalette",
+    "tile_example": "Wähle deine Szenen",
+    "card_name": "Szenen",
+    "scene_hint": "Optional. Leer lassen blendet diesen Platz aus. Szenen ändern erfordert ein erneutes Erstellen der Bildschirm-Firmware.",
+    "label_hint": "Optionaler Kurzname. Leer verwendet die Szenen-ID als lesbaren Text.",
+    "icon_palette": "Palette",
+    "icon_bulb": "Licht",
+    "icon_book": "Lesen",
+    "icon_movie": "Film",
+    "icon_moon": "Nacht",
+    "scene_1": "Szene 1",
+    "label_1": "Name 1",
+    "icon_1": "Symbol 1",
+    "scene_2": "Szene 2",
+    "label_2": "Name 2",
+    "icon_2": "Symbol 2",
+    "scene_3": "Szene 3",
+    "label_3": "Name 3",
+    "icon_3": "Symbol 3",
+    "scene_4": "Szene 4",
+    "label_4": "Name 4",
+    "icon_4": "Symbol 4",
+    "scene_5": "Szene 5",
+    "label_5": "Name 5",
+    "icon_5": "Symbol 5",
+    "scene_6": "Szene 6",
+    "label_6": "Name 6",
+    "icon_6": "Symbol 6"
+  }
+}
+

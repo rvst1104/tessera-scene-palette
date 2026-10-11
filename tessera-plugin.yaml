@@ -1,0 +1,99 @@
+id: scene_palette
+version: 0.1.0
+api: "0.8"
+icon: palette
+maintainer: rvst1104
+license: MIT
+stage: beta
+topics: [home]
+attributes: [ai-developed]
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 14
+permissions:
+  home_assistant_actions: [scene.turn_on]
+inputs:
+  - { id: scene_1, kind: entity, optional: true, domains: [scene], scope: screen, label: scene_1, hint: scene_hint }
+  - { id: scene_2, kind: entity, optional: true, domains: [scene], scope: screen, label: scene_2, hint: scene_hint }
+  - { id: scene_3, kind: entity, optional: true, domains: [scene], scope: screen, label: scene_3, hint: scene_hint }
+  - { id: scene_4, kind: entity, optional: true, domains: [scene], scope: screen, label: scene_4, hint: scene_hint }
+  - { id: scene_5, kind: entity, optional: true, domains: [scene], scope: screen, label: scene_5, hint: scene_hint }
+  - { id: scene_6, kind: entity, optional: true, domains: [scene], scope: screen, label: scene_6, hint: scene_hint }
+tiles:
+  - id: palette
+    name: tile_name
+    icon: palette
+    sizes: { min: 1x1, max: 2x2 }
+    memory: 1800
+    example: tile_example
+    options:
+      - { id: label_1, kind: text, label: label_1, hint: label_hint, default: "" }
+      - { id: label_2, kind: text, label: label_2, hint: label_hint, default: "" }
+      - { id: label_3, kind: text, label: label_3, hint: label_hint, default: "" }
+      - { id: label_4, kind: text, label: label_4, hint: label_hint, default: "" }
+      - { id: label_5, kind: text, label: label_5, hint: label_hint, default: "" }
+      - { id: label_6, kind: text, label: label_6, hint: label_hint, default: "" }
+      - id: icon_1
+        kind: choice
+        label: icon_1
+        default: palette
+        choices:
+          - { value: palette, label: icon_palette }
+          - { value: bulb, label: icon_bulb }
+          - { value: book, label: icon_book }
+          - { value: movie, label: icon_movie }
+          - { value: moon, label: icon_moon }
+      - id: icon_2
+        kind: choice
+        label: icon_2
+        default: palette
+        choices:
+          - { value: palette, label: icon_palette }
+          - { value: bulb, label: icon_bulb }
+          - { value: book, label: icon_book }
+          - { value: movie, label: icon_movie }
+          - { value: moon, label: icon_moon }
+      - id: icon_3
+        kind: choice
+        label: icon_3
+        default: palette
+        choices:
+          - { value: palette, label: icon_palette }
+          - { value: bulb, label: icon_bulb }
+          - { value: book, label: icon_book }
+          - { value: movie, label: icon_movie }
+          - { value: moon, label: icon_moon }
+      - id: icon_4
+        kind: choice
+        label: icon_4
+        default: palette
+        choices:
+          - { value: palette, label: icon_palette }
+          - { value: bulb, label: icon_bulb }
+          - { value: book, label: icon_book }
+          - { value: movie, label: icon_movie }
+          - { value: moon, label: icon_moon }
+      - id: icon_5
+        kind: choice
+        label: icon_5
+        default: palette
+        choices:
+          - { value: palette, label: icon_palette }
+          - { value: bulb, label: icon_bulb }
+          - { value: book, label: icon_book }
+          - { value: movie, label: icon_movie }
+          - { value: moon, label: icon_moon }
+      - id: icon_6
+        kind: choice
+        label: icon_6
+        default: palette
+        choices:
+          - { value: palette, label: icon_palette }
+          - { value: bulb, label: icon_bulb }
+          - { value: book, label: icon_book }
+          - { value: movie, label: icon_movie }
+          - { value: moon, label: icon_moon }
+cards:
+  - { id: scenes, name: card_name }
+

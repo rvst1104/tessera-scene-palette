@@ -1,0 +1,6 @@
+# Production defaults stay empty. These previews deliberately contain no real scenes.
+tiles:
+  - { tile: palette, name: Scenes, sizes: [1x1, 2x1, 2x2] }
+cards:
+  - { card: scenes }
+
