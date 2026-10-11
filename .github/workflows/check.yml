@@ -1,14 +1,9 @@
-name: Prototype checks
+name: Plugin checks
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      preview:
-        description: Run the official screen preview as well
-        type: boolean
-        default: true
 
 permissions:
   contents: read
@@ -59,7 +54,7 @@ jobs:
       - name: Install preview system dependencies
         run: sudo apt-get update && sudo apt-get install -y libsdl2-dev build-essential pkg-config
       - name: Official preview
-        run: python tessera-plugins-upstream/tools/preview.py tessera-scene-palette --strict --board cyd --board guition
+        run: python tessera-plugins-upstream/tools/preview.py tessera-scene-palette --strict
       - name: Save preview results
         if: always()
         uses: actions/upload-artifact@v4

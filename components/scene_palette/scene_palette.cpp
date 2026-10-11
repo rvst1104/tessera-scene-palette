@@ -38,17 +38,19 @@ class PaletteTile : public tessera::Tile {
     parent_ = c.parent; width_ = c.width; height_ = c.height;
     const int gap = ui::px(8), foot = ui::line_height(Font::BODY) + gap;
     const int key = std::max(ui::mm(9), ui::line_height(Font::BODY) + 2 * gap);
+    const bool inline_navigation = height_ < 2 * key + 2 * gap + foot;
     // Fixed pages keep every target at least 9 mm, including compact landscape glass.
     rows_ = std::max(1, (height_ - foot - key - gap) / (key + gap));
     columns_ = width_ >= 2 * ui::mm(28) + gap ? 2 : 1;
+    if (inline_navigation) { rows_ = 1; columns_ = 1; }
     page_size_ = std::max(1, std::min(6, rows_ * columns_));
     rows_ = (page_size_ + columns_ - 1) / columns_;
-    const int available = std::max(key, height_ - foot - key - 2 * gap);
+    const int available = std::max(key, height_ - foot - (inline_navigation ? gap : key + 2 * gap));
     key_height_ = std::min(ui::mm(18), std::max(key, (available - (rows_ - 1) * gap) / rows_));
-    const int cell = (width_ - (columns_ - 1) * gap) / columns_;
+    const int cell = inline_navigation ? width_ - 2 * (key + gap) : (width_ - (columns_ - 1) * gap) / columns_;
     for (int i = 0; i < page_size_; ++i) {
       auto *block = ui::block(parent_, theme::CARD);
-      lv_obj_set_pos(block, (i % columns_) * (cell + gap), (i / columns_) * (key_height_ + gap));
+      lv_obj_set_pos(block, inline_navigation ? key + gap : (i % columns_) * (cell + gap), (i / columns_) * (key_height_ + gap));
       lv_obj_set_size(block, cell, key_height_);
       blocks_.push_back(block);
       const Font face = ui::large() ? Font::ICON : Font::ICON_SMALL;
@@ -57,17 +59,22 @@ class PaletteTile : public tessera::Tile {
       names_.push_back(line(block, Font::BODY, theme::INK, 2 * pad + iw,
                             (key_height_ - ui::line_height(Font::BODY)) / 2, cell - iw - 3 * pad, ""));
     }
-    const int nav_y = std::max(rows_ * (key_height_ + gap), height_ - foot - key);
+    const int nav_y = inline_navigation ? 0 : std::max(rows_ * (key_height_ + gap), height_ - foot - key);
+    const int nav_width = inline_navigation ? key : width_ / 2 - gap / 2;
+    const int nav_height = inline_navigation ? key_height_ : key;
     previous_ = ui::block(parent_, theme::TRACK);
     next_ = ui::block(parent_, theme::TRACK);
     lv_obj_set_pos(previous_, 0, nav_y);
-    lv_obj_set_pos(next_, width_ / 2 + gap / 2, nav_y);
-    lv_obj_set_size(previous_, width_ / 2 - gap / 2, key);
-    lv_obj_set_size(next_, width_ / 2 - gap / 2, key);
-    previous_text_ = line(previous_, Font::BODY, theme::INK, gap, (key - ui::line_height(Font::BODY)) / 2,
-                           width_ / 2 - 3 * gap, plugin_->text("previous"));
-    next_text_ = line(next_, Font::BODY, theme::INK, gap, (key - ui::line_height(Font::BODY)) / 2,
-                       width_ / 2 - 3 * gap, plugin_->text("next"));
+    lv_obj_set_pos(next_, width_ - nav_width, nav_y);
+    lv_obj_set_size(previous_, nav_width, nav_height);
+    lv_obj_set_size(next_, nav_width, nav_height);
+    const Font nav_font = inline_navigation ? Font::ICON_SMALL : Font::BODY;
+    const int nav_text_width = inline_navigation ? ui::line_height(nav_font) : nav_width - 2 * gap;
+    const int nav_text_x = inline_navigation ? (nav_width - nav_text_width) / 2 : gap;
+    previous_text_ = line(previous_, nav_font, theme::INK, nav_text_x, (nav_height - ui::line_height(nav_font)) / 2,
+                           nav_text_width, inline_navigation ? ui::icon(0xF0141) : plugin_->text("previous"));
+    next_text_ = line(next_, nav_font, theme::INK, nav_text_x, (nav_height - ui::line_height(nav_font)) / 2,
+                       nav_text_width, inline_navigation ? ui::icon(0xF0142) : plugin_->text("next"));
     status_ = line(parent_, Font::BODY, theme::MUTED, 0, height_ - foot + gap, width_, "");
     empty_ = line(parent_, Font::BODY, theme::MUTED, 0, gap, width_, plugin_->text("empty"));
     hint_ = line(parent_, Font::BODY, theme::MUTED, 0, gap + ui::line_height(Font::BODY) + gap,
