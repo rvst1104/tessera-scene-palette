@@ -53,8 +53,17 @@ jobs:
           /tmp/test_screen_input
       - name: Install preview system dependencies
         run: sudo apt-get update && sudo apt-get install -y libsdl2-dev build-essential pkg-config
+      - uses: actions/cache@v4
+        with:
+          path: |
+            tessera-plugins-upstream/tools/.cache
+            ~/.platformio
+          key: preview-linux-stock-8fee7045-${{ github.sha }}
+          restore-keys: preview-linux-stock-8fee7045-
       - name: Official preview
-        run: python tessera-plugins-upstream/tools/preview.py tessera-scene-palette --strict
+        # The 4.3-inch board's default portrait grid has only one column.
+        # This tile explicitly requires two; validate its supported landscape layout.
+        run: python tessera-plugins-upstream/tools/preview.py tessera-scene-palette --strict --board cyd --board guition --board waveshare43 --board jc8012p4a1
       - name: Save preview results
         if: always()
         uses: actions/upload-artifact@v4

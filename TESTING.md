@@ -8,5 +8,5 @@ After the normal plugin firmware build, add a 2×2 or larger Scene Palette tile.
 
 Check scene taps, pagination, unused slots, duplicate slots, invalid IDs, light/dark theme, swipes and standby on the real panel. Scene buttons are inside the tile; there is no popup card. Only the core-filtered tile tap dispatches actions. No scene is executed by the automated preview.
 
-GitHub Actions uses the stock manifest validator, tests empty options and selection logic, and runs the official strict preview on CYD and Guition. Its images and findings are uploaded as `screen-preview`. Physical panel validation and measured memory usage remain pending.
+GitHub Actions uses the stock manifest validator, tests empty options and selection logic, and runs the official strict preview on CYD, Guition, Waveshare 4.3 landscape and Guition 10.1. Its images and findings are uploaded as `screen-preview`. The default Waveshare 4.3 portrait grid has only one column and cannot fit a 2×2 tile; it was also built in the bench, which reported this expected size restriction. Physical panel validation and measured memory usage remain pending.
 

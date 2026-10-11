@@ -6,6 +6,8 @@ Version 0.2.0 fixes installation on **unmodified Tessera plugin API 0.8**. No pa
 
 Six scene slots start empty. The scenes appear together **inside one larger tile**, with fixed pages when necessary. This replaces the prototype's unsupported popup. Each scene has an optional display name. Scene choices are entered as entity IDs in the tile options, rather than an entity-picker dropdown.
 
+The layout must have at least two columns and two rows. A one-column portrait grid cannot fit this tile; use a compatible grid or landscape orientation.
+
 ## Set up
 
 1. In Tessera Screen Manager, open Plugins > Add with a link and enter `https://github.com/rvst1104/tessera-scene-palette`.

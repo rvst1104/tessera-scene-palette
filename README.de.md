@@ -1,5 +1,7 @@
 # Szenenpalette
 
+Das Raster muss mindestens zwei Spalten und zwei Zeilen haben. Ein einspaltiges Hochformat-Raster bietet keinen Platz für diese Kachel; verwende ein passendes Raster oder Querformat.
+
 **Ab Version 0.2.0 für unverändertes Tessera (Plugin-API 0.8).** Keine eigene Tessera-Version nötig. Der fehlerhafte Prototyp 0.1.0 wurde ersetzt.
 
 Alle sechs Szenenplätze starten leer. Die Szene-Schaltflächen liegen gemeinsam **innerhalb einer größeren Kachel**. Auf kleinen Displays gibt es mehrere Seiten. Die alte Popup-Ansicht ist entfallen, weil Tessera dafür keine unterstützten Schaltflächen anbietet.
